@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lelang Today</title>
+<link rel="stylesheet" type="text/css" href="dist/semantic.min.css"/>
+<link rel="stylesheet" type="text/css" href="css/modal.min.css"/>
+<link rel="stylesheet" type="text/css" href="css/dimmer.min.css"/>
+<link rel="stylesheet" type="text/css" href="css/reveal_edit.min.css"/>
+<link rel="stylesheet" type="text/css" href="css/mosaic.css"/>
+
+<link rel="stylesheet" type="text/css" href="dist/components/card.min.css"/>
+<link rel="stylesheet" type="text/css" href="menu.css"/>
+<link rel="stylesheet" type="text/css" href="dist/components/container.css"/>
+<link href="oswald.css" rel="stylesheet">
+
+<script src="js/handlebars.js"></script>
+<link href='https://fonts.googleapis.com/css?family=PT+Sans' rel='stylesheet' type='text/css'>
+
+<style>
+
+	body {
+	z-index: 10;
+	font-family: 'Lato', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+	background: #E9E9E9;
+	padding-left: 110px;
+	}
+	.logo
+	{
+	font-family: 'Oswald', sans-serif;
+	width:140px;
+	}
+	#blog-landing {
+	margin-top: 81px;
+	position: relative;
+	max-width: 100%;
+	width: 1220px;
+	margin-left: auto;
+	margin-right: auto;
+	}
+
+	img {
+	width: 100%;
+	max-width: 100%;
+	height: auto;
+	}
+	.white-panel {
+	position: absolute;
+	background: white;
+	box-shadow: 0px 1px 2px rgba(0,0,0,0.3);
+	padding: 10px;
+	width: 47%;
+	margin-right:11px;
+	margin-top:8px;
+	transform:translate3d(0,0,0);
+	-webkit-transform:translate3d(0,0,0);
+	-moz-transform:translate3d(0,0,0);
+	}
+
+	@media screen and (min-width: 800px) {
+    .white-panel {
+       width: 23%;
+		}
+	}
+	
+	@media screen and (max-width: 400px) {
+    .white-panel {
+       width: 95%;
+		}
+	}
+	.white-panel h1 {
+	font-size: 1em;
+	}
+	.white-panel h1 a {
+	color: #A92733;
+	}
+	.white-panel:hover {
+	box-shadow: 1px 1px 10px rgba(0,0,0,0.5);
+	margin-top: -3px;
+	-webkit-transition: all 0.25s ease-out;
+	-moz-transition: all 0.25s ease-out;
+	-o-transition: all 0.25s ease-out;
+	transition: all 0.25s ease-out;
+	}
+
+	.ui.card{
+		cursor: pointer;
+	}
+</style>
+
+
+
+<!-- CAROUSEL starts-->
+
+  <link rel="stylesheet" href="css/carousel.css" media="screen" />
+
+
+    <style media="screen">
+
+    .carousel_container {
+      width: 210px;
+      height: 140px;
+      position: relative;
+      margin: 0 auto 40px;
+      /*border: 1px solid #CCC;*/
+
+      -webkit-perspective: 1100px;
+         -moz-perspective: 1100px;
+           -o-perspective: 1100px;
+              perspective: 1100px;
+    }
+
+    #carousel {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      -webkit-transform: translateZ( -288px );
+         -moz-transform: translateZ( -288px );
+           -o-transform: translateZ( -288px );
+              transform: translateZ( -288px );
+      -webkit-transform-style: preserve-3d;
+         -moz-transform-style: preserve-3d;
+           -o-transform-style: preserve-3d;
+              transform-style: preserve-3d;
+      -webkit-transition: -webkit-transform 1s;
+         -moz-transition: -moz-transform 1s;
+           -o-transition: -o-transform 1s;
+              transition: transform 1s;
+    }
+
+    #carousel figure {
+      display: block;
+      position: absolute;
+      width: 156px;
+      height: 278px;
+		line-height:138%;
+	  font-size: 11px;
+
+      left: 10px;
+      top: 10px;
+      border: 2px solid black;
+      font-size: 16px;
+      font-weight: bold;
+      color: white;
+      text-align: center;
+    }
+	
+	.price {
+		text-align:right;
+		color: #eee;
+		font-weight: bold;
+		float: right;
+		font-size:12px;
+
+	}
+    #carousel figure:nth-child(1) { background: hsla(   0, 100%, 50%, 0.8 ); }
+    #carousel figure:nth-child(2) { background: hsla(  40, 100%, 50%, 0.8 ); }
+    #carousel figure:nth-child(3) { background: hsla(  80, 100%, 50%, 0.8 ); }
+    #carousel figure:nth-child(4) { background: hsla( 120, 100%, 50%, 0.8 ); }
+    #carousel figure:nth-child(5) { background: hsla( 160, 100%, 50%, 0.8 ); }
+    #carousel figure:nth-child(6) { background: hsla( 200, 100%, 50%, 0.8 ); }
+    #carousel figure:nth-child(7) { background: hsla( 240, 100%, 50%, 0.8 ); }
+    #carousel figure:nth-child(8) { background: hsla( 280, 100%, 50%, 0.8 ); }
+    #carousel figure:nth-child(9) { background: hsla( 320, 100%, 50%, 0.8 ); }
+
+    #carousel figure:nth-child(1) {
+      -webkit-transform: rotateY(   0deg ) translateZ( 288px );
+         -moz-transform: rotateY(   0deg ) translateZ( 288px );
+           -o-transform: rotateY(   0deg ) translateZ( 288px );
+              transform: rotateY(   0deg ) translateZ( 288px );
+    }
+    #carousel figure:nth-child(2) {
+      -webkit-transform: rotateY(  40deg ) translateZ( 288px );
+         -moz-transform: rotateY(  40deg ) translateZ( 288px );
+           -o-transform: rotateY(  40deg ) translateZ( 288px );
+              transform: rotateY(  40deg ) translateZ( 288px );
+    }
+    #carousel figure:nth-child(3) {
+      -webkit-transform: rotateY(  80deg ) translateZ( 288px );
+         -moz-transform: rotateY(  80deg ) translateZ( 288px );
+           -o-transform: rotateY(  80deg ) translateZ( 288px );
+              transform: rotateY(  80deg ) translateZ( 288px );
+    }
+    #carousel figure:nth-child(4) {
+      -webkit-transform: rotateY( 120deg ) translateZ( 288px );
+         -moz-transform: rotateY( 120deg ) translateZ( 288px );
+           -o-transform: rotateY( 120deg ) translateZ( 288px );
+              transform: rotateY( 120deg ) translateZ( 288px );
+    }
+    #carousel figure:nth-child(5) {
+      -webkit-transform: rotateY( 160deg ) translateZ( 288px );
+         -moz-transform: rotateY( 160deg ) translateZ( 288px );
+           -o-transform: rotateY( 160deg ) translateZ( 288px );
+              transform: rotateY( 160deg ) translateZ( 288px );
+    }
+    #carousel figure:nth-child(6) {
+      -webkit-transform: rotateY( 200deg ) translateZ( 288px );
+         -moz-transform: rotateY( 200deg ) translateZ( 288px );
+           -o-transform: rotateY( 200deg ) translateZ( 288px );
+              transform: rotateY( 200deg ) translateZ( 288px );
+    }
+    #carousel figure:nth-child(7) {
+      -webkit-transform: rotateY( 240deg ) translateZ( 288px );
+         -moz-transform: rotateY( 240deg ) translateZ( 288px );
+           -o-transform: rotateY( 240deg ) translateZ( 288px );
+              transform: rotateY( 240deg ) translateZ( 288px );
+    }
+    #carousel figure:nth-child(8) {
+      -webkit-transform: rotateY( 280deg ) translateZ( 288px );
+         -moz-transform: rotateY( 280deg ) translateZ( 288px );
+           -o-transform: rotateY( 280deg ) translateZ( 288px );
+              transform: rotateY( 280deg ) translateZ( 288px );
+    }
+    #carousel figure:nth-child(9) {
+      -webkit-transform: rotateY( 320deg ) translateZ( 288px );
+         -moz-transform: rotateY( 320deg ) translateZ( 288px );
+           -o-transform: rotateY( 320deg ) translateZ( 288px );
+              transform: rotateY( 320deg ) translateZ( 288px );
+    }
+
+.lower_card {
+	z-index:1000;
+}
+.caption {
+	z-index:0;
+	position:absolute;
+	float:left;
+	color: beige;
+	padding: 9px 0px 0px 11px;
+	height: 50px; top: -49px;width: 100%;line-height: 25pt;
+	opacity: 0;
+
+	font-family: 'PT Sans', sans-serif;
+	font-size: 22px;
+	font-weight: 300;
+
+	-webkit-transition: all 200ms ease-out;
+	-moz-transition: all 200ms ease-out;
+	-o-transition: all 200ms ease-out;
+	-ms-transition: all 200ms ease-out;	
+	transition: all 200ms ease-out;
+}
+
+article:hover .caption {
+	z-index:2;
+	color: #fff;
+	background-color: rgba(62,62,62,0.5) !important;
+	-moz-transform: translateY(100%);
+	-o-transform: translateY(100%);
+	-webkit-transform: translateY(100%);
+	opacity: 1;
+	transform: translateY(100%);
+}
+
+.visible.content {
+	-webkit-transition: all 500ms ease-out;
+	-moz-transition: all 500ms ease-out;
+	-o-transition: all 500ms ease-out;
+	-ms-transition: all 500ms ease-out;	
+	transition: all 500ms ease-out;
+}
+article:hover .visible.content{
+	-moz-transform: translateY(-100%);
+	-o-transform: translateY(-100%);
+	-webkit-transform: translateY(-100%);
+	transform: translateY(-100%);	
+}
+.ribbon {
+	z-index:1000;
+}
+  </style>
+
+
+
+<script id=targetnya type="text/x-handlebars-template" style=display:none>
+	{{#each items}}
+	<article class="white-panel {{tags}}" {{#if ending}} style="background-color: rgb(198, 36, 36); border: 1px dashed rgba(120, 198, 79, 1);"{{/if}}>
+
+	<div class="ui card" style=background-color:beige>
+
+
+	  <div class="image " style=z-index:1>
+
+	 {{#if bids}}
+		<span style="" class="caption ">
+					{{#if ending}} 
+						<p style=font-size:11px;margin-top:-4px> 
+							Highest Bid:
+						<div style=margin-top:-15px>
+							Rp {{highestBid}}
+						</div>
+						</p>
+					  {{else}}
+
+						<div class="ui right" style=position:absolute;font-size:13px;right:0.8%;margin-top:-2px;color:orange>
+						
+						   <i>{{currentLead}}</i>
+						   <img class="right ui avatar image" src=images/lohan.jpg style=margin-top:0px;margin-left:4px;>
+						 
+						</div>
+						
+						<p style=font-size:11px;margin-top:-4px> 
+							Highest Bid:
+						<div style=margin-top:-15px>
+							Rp {{highestBid}}
+						</div>
+						</p>
+						<!-- 
+						<p style=color:#f1f1f1;margin-top:-2px>
+											    <b ><u>Highest Bid</u>:</b>	Rp {{highestBid}}
+						</p> 
+						-->
+					  {{/if}}
+		</span>
+	 {{else}}
+
+	 {{/if}}
+		
+		<!-- 
+		<a href="http://www.nonsensesociety.com/2010/12/i-am-not-human-portraits/" target="_blank" class="mosaic-overlay">
+			<div class="details" >
+				<h4>I Am Not Human - Unique Self Portraits</h4><br/>
+				<p>via the Nonsense Society (photo credit: Dan Deroches)</p>
+			</div>
+		</a> 
+		-->
+
+		  <a class="ui left corner label" style=display:none>
+			<i class="heart big red icon"></i>
+		  </a>
+
+
+		  {{#if bids}}
+			  {{#if ending}} 
+				
+				<a class="ui yellow right ribbon label" style=padding-left:13px;padding-top:8px;font-size:14px;margin-top:-7px><i><div class="ui " style=font-size:14px>ENDING...<div style=margin-top:-18px;left:73%;font-size:15px;position:absolute;float:right; class="ui ends">!<span style=font-size:16px>!</span><span style=font-size:18px>!</span></div></div></i></a>
+				
+			  {{/if}}
+		  {{else}}
+			  {{#if ending}} 
+				
+				<a class="ui yellow right ribbon label" style=padding-left:15px;padding-top:9px;font-size:14px;margin-top:-7px><i>Ending Soon..!!</i></a>
+				
+			  {{else}}
+				<a class="ui green	right ribbon label" style="text-shadow:1px 1px 1px #000;padding-left:23px;padding-top:7px;font-size:15px;margin-top:-5px"><div class="ui firstBid">Be the first bidder!!</i></div></a>
+			  {{/if}}
+		  {{/if}}
+
+
+		<img src="images/{{imgURL}}.jpg" alt="ALT" > <!-- class='mosaic-backdrop' -->
+
+	  </div>
+	  
+		  <div class="ui content lower_card">
+			<a class="header">{{itemName}}</a>
+			<div class="meta">
+			  <span class="date">viewed {{viewCount}} times</span>
+			</div>
+			<div class="description">
+			  {{description}}
+			</div>
+
+		  <div class="ui lower dimmer" {{#if ending}} data-ending=1{{/if}}>
+			<div class="content">
+			  <div class="center">
+			   {{#if hourLeft}}
+				<h3 class="ui inverted header"><span style=color:red>{{ETA}}</span> left!<!/h3> {{#if ending}}<br>{{/if}}
+			   {{/if}}
+				<div class="ui  button">Bid Now</div>
+				<div class="ui primary button spot" ><i class="icon unhide normal"></i>Spot!</div>
+			  </div>
+			</div>
+		  </div>
+
+
+		  </div>
+		  <div class="extra content move up reveal ui" style="background-color:beige;height:50px;width:100%">
+			
+			<div style="padding:15px 15px 13px 15px;height:44px;width:100px;text-overflow: ellipsis;" class="hidden content">
+				<div >
+				<a>
+
+			  <i style=margin-top:-5px class="checkered flag icon"></i>
+				  <span style=color:#333;font-size:14px;>
+				  <B>
+					Ends  
+				  </b> 
+					<a style=margin-left:4px;color:#555;>
+					<i>{{endDate}}.</i>
+				  	</a>
+				  </span>
+
+
+				</a>
+				 <br>
+			 </div>
+
+			</div>
+
+			<div class="visible content">
+					<div style=position:absolute;float:right;right:35.5%;font-size:10px;margin-top:5px;>
+						Seller:<br>
+					</div>	
+					<div style=position:absolute;float:right;right:26.5%;margin-top:20px;>
+					  <span style=font-size:12px><i>{{seller}}</i></span>
+					  <img class="ui avatar image" src=images/angga.jpg style=margin-top:-8px;margin-left:3px>
+					</div>
+
+
+				<div style="height:45px;width:350px;padding:15px 15px 15px 15px;background-color:white;">
+				<a>
+				  <i class="bar chart icon"></i>
+				  <span style=color:#777;margin-left:-2px><b>{{bids}} bids</b></span>
+				</a>
+				<!-- <a class=right style=float:right;font-size:10px>
+					david
+				</a>  -->
+				<br><br>
+
+			
+				
+				
+				</div>
+
+			
+
+			
+			
+			</div>
+
+		  </div>
+
+
+	<div class="ui dimmer">
+		<div class="content" style=margin-top:-50px;>
+		  <div class="center" >
+			<!-- <img  src=images/383_-_binoculars-128.png> -->
+				<i class="huge icons" style=opacity:0.45>
+				  <i class="big teal square outline icon"></i>
+				  <i class="unhide teal icon" style=margin-left:-1px;margin-top:-5px;></i>
+				</i>
+		  </div>
+		</div>
+	</div>
+
+  </div>
+
+	</article>
+	{{/each}}
+</script>
+
+
+<script id=modal_target type="text/x-handlebars-template" style=display:none>
+	  <i class="close icon"></i>
+	  <div class="header">
+		Profile Picture
+	  </div>
+	  <div class="image content">
+		<div class="ui medium image">
+		  <img src="/images/avatar/large/chris.jpg">
+		</div>
+		<div class="description">
+		  <div class="ui header">We've auto-chosen a profile image for you.</div>
+		  <p>We've grabbed the following image from the <a href="https://www.gravatar.com" target="_blank">gravatar</a> image associated with your registered e-mail address.</p>
+		  <p>Is it okay to use this photo?</p>
+		</div>
+	  </div>
+	  <div class="actions">
+		<div class="ui black deny button">
+		  Nope
+		</div>
+		<div class="ui positive right labeled icon button">
+		  Yep, that's me
+		  <i class="checkmark icon"></i>
+		</div>
+	  </div>
+</script>
+
+
+</head>
+<body class="pushable">
+
+<center>
+<h2>
+Currently Most Watched Items
+</h2>
+
+</center>
+
+<section class="carousel_container">
+    <div id="carousel">
+      <figure><img src=images/1.jpg height=200>Tomomi Kasai Photo-1<br><span class=price>Rp 70000&nbsp;</span></figure>
+      <figure><img src=images/2.jpg height=200>Sakura, Murashige, Haruppi<br><span class=price>Rp 45000&nbsp;</span></figure>
+      <figure><img src=images/3.jpg height=200>Asuka Kuramochi Photobook<br><span class=price>Rp 250000&nbsp;</span></figure>
+      <figure><img src=images/4.jpg height=200>Nogizaka46 Ikoma Photo<br><span class=price>Rp 40000&nbsp;</span></figure>
+      <figure><img src=images/5.jpg height=200>Nogizaka46 Hoshino Photo<br><span class=price>Rp 50000&nbsp;</span></figure>
+      <figure><img src=images/6.jpg height=200>Nogizaka46 Ikuta Photo<br><span class=price>Rp 65000&nbsp;</span></figure>
+      <figure><img src=images/7.jpg height=200>Erina Mano PB Page 26<br><span class=price>Rp 20000&nbsp;</span></figure>
+      <figure><img src=images/8.jpg height=200>Erina Mano PB Page 27<br><span class=price>Rp 20000&nbsp;</span></figure>
+      <figure><img src=images/9.jpg height=200>Erina Mano PB Page 32<br><span class=price>Rp 20000&nbsp;</span></figure>
+    </div>
+</section>
+
+<br><br><Br><br>
+<!-- Following Menu -->
+<div class="ui large top fixed hidden menu">
+    <div class="left menu">
+      <div class="logo">
+        <a class="item"><center><strong>Lelang Today</strong></center></a>
+      </div>
+    <a class="active item">Home</a>
+    <a class="item">Product</a>
+    <a class="item">Lelang Cart</a>
+    <a class="item">How To Play</a>
+    </div>
+    <div class="right menu">
+      <div class="item">
+        <a class="ui button">Log in</a>
+      </div>
+      <div class="item">
+        <a class="ui primary button">Sign Up</a>
+      </div>
+    </div>
+  </div>
+
+<div class="container marketing">
+
+
+
+<!-- TAGS starts... -->
+	<br>
+	<br>
+	<br>
+	<br>
+
+	<center>
+	<h3 style=color:#eee><i>Popular tag</i></h3>
+
+	<button onclick="$('#blog-landing').isotope({ filter: '.sakura' }); localStorage.filter='.sakura'">Sakura</button>
+	<button onclick="$('#blog-landing').isotope({ filter: '.netshop' }); localStorage.filter='.netshop'">netshop</button>
+	<button onclick="$('#blog-landing').isotope({ filter: '.AKB48' }); localStorage.filter='.AKB48'">AKB48</button>
+	<button onclick="$('#blog-landing').isotope({ filter: '.Avengers' }); localStorage.filter='.PB'">Avengers</button>
+	<button onclick="$('#blog-landing').isotope({ filter: '.Marvel' }); localStorage.filter='.PB'">Marvel</button>
+	<button onclick="$('#blog-landing').isotope({ filter: '.Funko' }); localStorage.filter='.PB'">Funko</button>
+	<button onclick="$('#blog-landing').isotope({ filter: '.GameofThrone' }); localStorage.filter='.PB'">Game Of Thrones</button>
+	<button onclick="$('#blog-landing').isotope({ filter: '.Aliens' }); localStorage.filter='.PB'">Alien</button>
+	<button onclick="$('#blog-landing').isotope({ filter: '.WalkingDead' }); localStorage.filter='.PB'">Walking Dead</button>
+</center>
+
+<!-- TAGS ends -->
+
+
+<!-- MODAL starts here -->
+<div id=popup class="ui modal">
+
+</div>
+<!-- MODAL ends -->
+
+
+<!-- PINTEREST starts here -->
+
+<section id="blog-landing">   <!-- data-isotope='{ "itemSelector": ".white-panel", "layoutMode": "fitRows" }' -->
+
+</section>
+
+<br><br><br><br>
+<center>
+<button id=load_moreBtn onclick=load_more()> LOAD MORE </button>
+<br>
+</center>
+</div>
+
+<!-- Bootstrap core JavaScript
+================================================== --> 
+<!-- Placed at the end of the document so the pages load faster --> 
+<script src="js/jquery.min.js"></script>
+<script src=js/carousel.js></script>
+<script src="js/isotope.min.js"></script>
+<script src="js/pinterest_grid.js"></script> 
+<script src=js/modal.min.js></script>
+<script src=js/dimmer.min.js></script>
+<script src=js/mosaic.min.js></script>
+<script src=js/transition.min.js></script>
+<script src=ui.js></script>
+
+<script>
+</body>
+</html>

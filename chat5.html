@@ -1,0 +1,510 @@
+<!DOCTYPE HTML>
+<head>
+
+    <meta charset="utf-8" />
+	<meta id="Viewport" name="viewport" width="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=yes">
+	<title>Lelang Today</title>
+    
+    <link rel="stylesheet" type="text/css" href="dist/semantic.min.css"/>
+    <link rel="stylesheet" type="text/css" href="dist/components/icon.min.css"/>
+    <link rel="stylesheet" type="text/css" href="dist/components/dropdown.min.css"/>
+    <link rel="stylesheet" type="text/css" href="dist/components/image.min.css"/>
+    <link rel="stylesheet" type="text/css" href="dist/components/segment.min.css"/>
+ 
+<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Lato" />
+<link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+
+ <script src="http://103.31.132.178:8030/socket.io/socket.io.js"></script>
+
+    <script src="js/jquery.min.js"></script> 
+
+	<script src="js/jquery.touchSwipe.min.js"></script>
+
+    <script src="js/countdown.js"></script> 
+
+	<script>
+	$(function(){
+if( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ) {
+  var ww = ( $(window).width() < window.screen.width ) ? $(window).width() : window.screen.width; //get proper width
+  var mw = 480; // min width of site
+  var ratio =  ww / mw; //calculate ratio
+  if( ww < mw){ //smaller than minimum size
+   $('#Viewport').attr('content', 'initial-scale=' + ratio + ', maximum-scale=' + ratio + ', minimum-scale=' + ratio + ', user-scalable=yes, width=' + ww);
+  }else{ //regular size
+   $('#Viewport').attr('content', 'initial-scale=1.0, maximum-scale=2, minimum-scale=1.0, user-scalable=yes, width=' + ww);
+  }
+}
+});
+
+
+
+	$(document).ready( function(){
+		$("#push_button").click(function(){
+			$("#last_bid").transition('fly down','600ms').
+					transition('bounce',300);
+		});
+		
+			$(".content").swipe({
+				  swipeStatus:function(event, phase, direction, distance, duration, fingers)
+					  {
+						  if (phase=="move" && direction =="right") {
+							    
+							if ($('.right.demo.sidebar').sidebar('is visible'))
+									$('.right.demo.sidebar').sidebar('toggle')
+							return false;
+						  }
+						  if (phase=="move" && direction =="left") {
+							
+							if ($('.right.demo.sidebar').sidebar('is hidden'))							
+								   $('.right.demo.sidebar').sidebar('toggle')
+							   return false;
+						  }
+					  }
+			  }); 
+
+
+	});
+
+
+		//Socket events declaration
+		var socket =  io.connect('http://103.31.132.178:8030', { query: "id=ox8888"});
+
+		socket.on('updateBid', function(recordSet){
+			
+			//1. naek dulu.....
+
+/*			$("#last_bid").transition({
+				animation: 'fly down',
+				duration: '600ms',
+				onComplete: function(){
+*/
+					$("#last_bid").html("Rp. " + recordSet['data'][0].nominal).
+					transition('bounce',300);
+
+					$("#bidBtn").removeClass('disabled');
+
+//				}
+//			});
+
+			/*
+				html("Rp. " + recordSet['data'][0].nominal).
+					transition('bounce',300);
+			*/
+
+			//2. update price on the top
+			//$("#last_bid").html("Rp. " + recordSet['data'][0].nominal);
+			//3. shown up new price
+			//$("#last_bid").transition('bounce',300);
+			
+			end_date = recordSet['data'][0].end_date;
+
+			var target_date = new Date(end_date.substr(0,4), end_date.substr(5,2), end_date.substr(8,2), 0, 0, 0);
+			var current_date = new Date();
+
+			var count = new Countdown(target_date, current_date);
+			
+			count.countdown(function(obj) {
+				//$('#days').html((obj.days < 10 ? '0' : '') + obj.days);
+				$('#hours').html((obj.hours < 10 ? '0' : '') + obj.hours);
+				$('#minutes').html((obj.minutes < 10 ? '0' : '') + obj.minutes);
+				$('#seconds').html((obj.seconds < 10 ? '0' : '') + obj.seconds);
+			});
+
+		});
+
+		socket.on('retrieveChat', function(recordSet){
+
+			empan = '';
+
+			for (i=0; i<recordSet['data'].length; i++ )
+			{
+			
+				if (recordSet['data'][i].tipe==1)
+				{
+					empan	+= '<div class="message">'
+					empan	+= '<img class="ui avatar image" src="images/' + recordSet['data'][i].sender_id + '.jpg">'
+					empan	+= '<div class="ui floating compact message" style=max-width:85%>'
+					empan	+= '<p>' + recordSet['data'][i].pesan + '</p>'
+					empan	+= '</div>'
+					empan	+= '</div>'
+				}
+				else
+				{
+					empan	+= '	<div class="message">'
+					empan	+= '<p class=update_msg>'
+					empan	+= recordSet['data'][i].pesan 
+					empan	+= '</p>'
+					empan	+= '</div>'
+				}
+			}
+
+			$("#chat_history").html(empan);
+			
+			//scroll to bottom
+			$("#chat_history").scrollTop($("#chat_history").prop("scrollHeight"));	
+
+		});
+
+		// ==============
+		// END OF SOCKETS
+		// ==============
+
+		$(document).ready(function(){
+			
+			// JOIN THE CHATROOM..
+			socket.emit('masukRoom', {aucId: 'PP0002'});
+
+			// GET THE LAST BID..
+			socket.emit('fetch', {aucId: 'PP0002'});
+			
+			// GET CHAT HISTORY
+			setTimeout(function() {
+				socket.emit('fetchChat', {aucId: 'PP0002'});
+			}, 2000);
+
+			// REGISTER SIDEBAR
+			$('.right.demo.sidebar').first().sidebar('attach events', '.open.button', 'show');
+			
+			$('.right.demo.sidebar').first().sidebar('setting', 'closable', false);
+			
+			// DEMO COUNTDOWN SIDE BAR
+			var count_side1 = new Countdown(new Date(2016, 03, 31 , 0, 0, 0), new Date());
+			count_side1.countdown(function(obj) {
+				$('#hours1').html((obj.hours < 10 ? '0' : '') + obj.hours);
+				$('#minutes1').html((obj.minutes < 10 ? '0' : '') + obj.minutes);
+				$('#seconds1').html((obj.seconds < 10 ? '0' : '') + obj.seconds);
+			});
+
+			var count_side2 = new Countdown(new Date(2016, 3, 31 , 0, 36, 19), new Date());
+			count_side2.countdown(function(obj) {
+				$('#hours2').html((obj.hours < 10 ? '0' : '') + obj.hours);
+				$('#minutes2').html((obj.minutes < 10 ? '0' : '') + obj.minutes);
+				$('#seconds2').html((obj.seconds < 10 ? '0' : '') + obj.seconds);
+			});
+
+			var count_side3 = new Countdown(new Date(2016, 4, 2 , 11, 06, 37), new Date());
+			count_side3.countdown(function(obj) {
+				$('#hours3').html((obj.hours < 10 ? '0' : '') + obj.hours);
+				$('#minutes3').html((obj.minutes < 10 ? '0' : '') + obj.minutes);
+				$('#seconds3').html((obj.seconds < 10 ? '0' : '') + obj.seconds);
+			});		
+
+		});
+
+		function nextBid(){
+			socket.emit('raiseBid', {auc: 'PP0002', who: 'dave02129'});
+			$("#last_bid").transition('fly down', 600);
+			$("#bidBtn").addClass('disabled');
+
+		}
+
+		function addChat(){
+			pesan = $("#chat_text").val();
+			if ( pesan != '')
+				socket.emit('newChat', {auc: 'PP0002', who: 'bobeng', msg: pesan});
+			$("#chat_text").val('');
+			$('#chatpopFx')[0].play();
+		}
+	</script>
+
+
+    <style type="text/css">
+
+		.timer{
+			font-weight:bold;
+			font-size:22px;
+			color:#aa1133;
+		}
+		.content
+		{
+			margin-left: 60px;
+			margin-top: 40px;
+		}
+
+		.ui.menu .item{
+			font-size:12px;
+			margin-bottom: 6px;
+		}
+
+		.ui.menu  .big	{
+			font-size: 16px;
+		}
+
+		.ui.menu .item.lead {
+			background: green;
+		}
+		.ui.menu .item.outbid {
+			background: maroon;
+		}
+		.ui.menu .item.unbid {
+			background: #888;
+		}
+
+		.ui.menu .time-each{
+			font-size:17px;	
+		}
+
+		.ui.menu .timer{
+			font-size: 12px;
+			float: right;
+			margin-top:-34px;
+		}
+
+		.ui.menu .timer2{
+			font-size: 12px;
+			float: right;
+			margin-top:-3px;
+		}
+
+		.ui.menu .small-price{
+			margin-right:-5px;
+			float: right;
+			margin-top:-6px;
+			font-size:10px;
+			color: #ccc;
+			font-style:oblique;
+		}
+		.ui.menu .iconfloat{
+			position:absolute;
+			left: -5px;
+			margin-top: 2px;
+	}
+    </style>
+</head>
+<body>
+
+
+<!-- SIDEBAR STARTS -->	
+
+
+	<div style="" class="ui right demo wide sidebar vertical inverted menu out">
+
+			  <a style=margin-top:20px;margin-bottom:35px class="header item big">Search</a>
+
+			  <a class="header item big" >Watched items</a>
+			  
+			  <div class="item lead">
+					<a class=item><img class=iconfloat src=images/green_dot.png >Kishino Rika Bubka Maga..</a>
+					<div class="timer right">
+						<span class=time-each>
+							<span id=minutes1>16</span>:<span id=seconds1>30</span>
+						</span> 
+						&nbsp;left
+					</div>
+					<!-- <div class="right small-price">Rp 15000</div> -->
+			   </div>
+			  <div class="item outbid">
+					Saipul Jamil handker..
+					<div class="timer2 right">
+						<span class=time-each>
+							<span id=hours2>01</span>:<span id=minutes2>27</span>:<span id=seconds2>30</span>
+						</span> 
+						&nbsp;left
+					</div>
+				</div>
+			  <div class="item unbid">
+					Cinta Laura socks
+					<div class="timer2 right">
+						<span class=time-each>
+							<span id=hours3>04</span>:<span id=minutes3>39</span>:<span id=seconds3>30</span>
+						</span> 
+						&nbsp;left
+					</div>
+				</div>
+	</div> 
+<!-- END OF SIDEBAR -->
+
+			<style>
+				.header{
+					position: fixed;
+					height: 80px;
+					width: 100%;
+					background: red;
+					padding-top:8px;
+				}
+				
+				.chat_photo{
+					position:fixed;
+					
+				}
+
+				.auction-thumb{
+					max-width: 60px;
+					max-height: 82px;
+					margin-top: -10px;
+				}
+
+				.description{
+					margin-left:66px;
+				}
+				.item_name{
+					font-size: 16px;
+					color: white;
+				}
+				.item_seller{
+					font-size:13px;
+					line-height:200%;
+				}
+
+				.chat_bid_btn{
+					display:none;
+					position: fixed;
+					float: right;
+					top: 0%;
+					left: 70%;
+				}
+				.chat_snipe_btn{
+					display:none;
+					position: fixed;
+					float: right;
+					top: 38px;
+					left: 70%;
+				}
+				
+				.cur_bid{
+					font-family: 'Roboto';
+					position: fixed;
+					float: right;
+					top: 0%;
+					left: 80%;
+					width:  20%;
+					height:80px;
+					font-weight:bold;
+					text-align:center;
+					line-height: 37px;
+					font-size: 18px;
+					color: white;
+					border-radius: 4px;
+					background-color: #553355;
+					text-shadow: 1px 2px 2px #111;
+				}
+				
+				.timer_header{
+					font-size: 14px;
+					text-shadow: 0px 0px 0px;
+					color: black;
+				}
+			</style>
+
+			<div class="header" id=chat_top>
+				<div class=chat_photo>
+					<img src='images/s-l1605.jpg' id=item_photo class=auction-thumb>
+				</div>
+
+				<div class=description>
+					<div class=item_name>
+						NECA Predator Jungle Hunter 1/4  ....
+					</div>
+					<div class=item_seller>
+						by <span id=seller>DIABOLIQUE TOYS</span>
+					</div>
+				</div>
+
+				<div class=chat_bid_controller>
+					<div class="ui orange button chat_bid_btn" style='border: solid 1px black;height:38px;width:63px;' onclick=nextBid()>
+						<img src=images/ui_outline_1-02-32.png style=margin-top:-9px;margin-left:-7px; width=34px>
+					</div>
+					<div class="ui blue button chat_snipe_btn" style=height:38px;width:63px; onclick=snipe()>
+						<img src=images/scope_51-32.png style=margin-top:-12px;margin-left:-10px; width=42px>
+					</div>
+					<div class=cur_bid  >
+						<span id=last_bid>
+							<img src=images/preloader.gif style=margin-top:4px;>
+						</span>
+						
+						<div id=time_left style=display:none>
+							<div class=timer_header style=margin-top:px;margin-bottom:-10px>
+								Time left: 
+							</div>		
+							<p class=timer> 
+
+								<span id=hours></span>:
+								<span id=minutes></span>:
+								<span id=seconds></span>
+							</p>
+						</div>
+					</div>
+			</div>
+<br><br>
+<center>
+<span style=font-size:13px;letter-spacing:1pt>TODAY</span>
+</center>
+
+<!-- 		CHAT BODY BEGIN -->
+
+		<style type="text/css">
+		.ui.avatar.image{
+			width: 2.5em;
+			height: 2.5em;
+			margin-right: 8px;
+		}
+
+		.ui.message:last-child {
+			margin-bottom: 6px;
+		}
+
+		.messages{
+			position:fixed;margin-left:1%;width:95%;height:72%;overflow-y:scroll;
+		}
+
+		.update_msg{
+			line-height: 290%;
+			margin-left: 44px;
+			color: #118899;
+		}
+		</style>
+		
+		<div class="main ui messages" id=chat_history>
+
+
+		</div>
+<!--	CHAT BODY END -->
+
+
+
+<!--	FOOTER BEGIN -->
+ 
+	 <style>
+		#chat_footer{
+			position: fixed;
+			height: 5%;
+			width: 98%;
+			left: 1%;
+			border: 1px 1px 1px 1px;
+			bottom: 40px;
+		}
+	</style>
+
+	<div id=chat_footer>
+		<div class="ui stacked segment">
+		  <div class="ui form">
+			  <div class=" fields">
+				<div class=" wide field" style=width:88%>
+				  <input placeholder="Insert Chat here" type="text" id=chat_text onkeypress="if(event.keyCode==13){addChat(); return false;}">
+				</div>
+					<div class=" wide field">
+					<div class="field ui teal button " style=height:38px;width:51px; onclick=addChat()>
+						<img src=images/30-communication_-_email_send_contact-32.png style=margin-top:-6px;margin-left:-2px width=28>
+					</div>
+					</div>
+			  </div>
+			 </div>
+		</div>
+	</div>
+
+
+<!-- FOOTER ENDS -->
+
+	</div>
+
+
+    <script type="text/javascript" src="dist/semantic.min.js"></script>
+
+    <script type="text/javascript" src="dist/components/dropdown.min.js"></script>
+	
+
+</body>
+ 
+ <audio id="chatpopFx" src="hammer.mp3"> </audio>
+
+</html>

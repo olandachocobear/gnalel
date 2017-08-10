@@ -1,0 +1,147 @@
+
+ <style>
+  .zoom-left{
+  float:left;
+  width:412px;
+
+  }
+  .zoom-right{
+  float:left;
+  width:320px;
+    padding:20px;
+  
+  }
+
+  .zoomContainer{
+	  margin-bottom:5px;
+	  border: 1px solid #e8e8e6;
+  }
+  .zoom-gallery-hover{
+	  border: 2px solid orange;
+  }
+
+  .zoom-wrapper{
+	border-radius: 10px;
+	border: 1px solid #E0E0E0;
+	padding: 10px;
+	background-color: #F7F7F7;
+	}
+  h6 {
+	clear: both;
+	margin-top: 13px !important;
+	font-size: 15px !important;
+	margin-top: 7px !important;
+	}
+</style>
+
+
+
+
+		<img style="" id="img_01" src="http://www.elevateweb.co.uk/wp-content/themes/radial/zoom/images/small/image3.png" 
+		data-zoom-image="http://www.elevateweb.co.uk/wp-content/themes/radial/zoom/images/large/image3.jpg"
+		width="411"  />
+		<div id="gal1" style="width="500px;">
+		 
+			<a  href="#" class="elevatezoom-gallery" data-update="" data-image="http://www.elevateweb.co.uk/wp-content/themes/radial/zoom/images/small/image1.png" 
+			data-zoom-image="http://www.elevateweb.co.uk/wp-content/themes/radial/zoom/images/large/image1.jpg">
+			<img id="img_01" src="http://www.elevateweb.co.uk/wp-content/themes/radial/zoom/images/small/image1.png" width="100"  /></a>
+
+			<a  href="#" class="elevatezoom-gallery"
+				 data-image="http://www.elevateweb.co.uk/wp-content/themes/radial/zoom/images/small/image2.png"
+				 data-zoom-image="http://www.elevateweb.co.uk/wp-content/themes/radial/zoom/images/large/image2.jpg"
+				><img id="img_01" src="http://www.elevateweb.co.uk/wp-content/themes/radial/zoom/images/small/image2.png" width="100"  /></a>
+
+			<a href="tester" class="elevatezoom-gallery" 
+				 data-image="http://www.elevateweb.co.uk/wp-content/themes/radial/zoom/images/small/image3.png"
+				 data-zoom-image="http://www.elevateweb.co.uk/wp-content/themes/radial/zoom/images/large/image3.jpg">
+				 <img id="img_01" src="http://www.elevateweb.co.uk/wp-content/themes/radial/zoom/images/small/image3.png" width="100"  />
+			</a>
+
+			<a href="tester" class="elevatezoom-gallery" 
+				 data-image="http://www.elevateweb.co.uk/wp-content/themes/radial/zoom/images/small/image4.png"
+				 data-zoom-image="http://www.elevateweb.co.uk/wp-content/themes/radial/zoom/images/large/image4.jpg"
+				 
+				 class="slide-content"
+				><img id="img_01" src="http://www.elevateweb.co.uk/wp-content/themes/radial/zoom/images/small/image4.png" width="100"  /></a>
+
+		</div>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js" type="text/javascript"></script> 
+
+<script src="http://www.elevateweb.co.uk/wp-content/themes/radial/jquery.elevatezoom.min.js" type="text/javascript"></script>
+<script src="http://www.elevateweb.co.uk/wp-content/themes/radial/jquery.fancybox.pack.js" type="text/javascript"></script>
+
+<script type="text/javascript" src="http://www.elevateweb.co.uk/wp-content/themes/radial/syntax/prism.js"></script>
+
+<link type="text/css" rel="stylesheet" href="http://www.elevateweb.co.uk/wp-content/themes/radial/syntax/prism.css"/>
+
+
+
+
+<script type="text/javascript">
+
+
+$(document).ready(function () {
+   $("#select").change(function(e){
+ 
+   var currentValue = $("#select").val();
+   if(currentValue == 1){    
+   smallImage = 'http://www.elevateweb.co.uk/wp-content/themes/radial/zoom/images/small/image1.png';
+   largeImage = 'http://www.elevateweb.co.uk/wp-content/themes/radial/zoom/images/large/image1.jpg';
+   }
+   if(currentValue == 2){    
+   smallImage = 'http://www.elevateweb.co.uk/wp-content/themes/radial/zoom/images/small/image2.png';
+   largeImage = 'http://www.elevateweb.co.uk/wp-content/themes/radial/zoom/images/large/image2.jpg';
+   }
+   if(currentValue == 3){    
+   smallImage = 'http://www.elevateweb.co.uk/wp-content/themes/radial/zoom/images/small/image3.png';
+   largeImage = 'http://www.elevateweb.co.uk/wp-content/themes/radial/zoom/images/large/image3.jpg';
+   }
+   if(currentValue == 4){    
+   smallImage = 'http://www.elevateweb.co.uk/wp-content/themes/radial/zoom/images/small/image4.png';
+   largeImage = 'http://www.elevateweb.co.uk/wp-content/themes/radial/zoom/images/large/image4.jpg';
+   }
+	// Using default configuration
+ 
+ 	var ez =   $('#img_01').data('elevateZoom');	  
+   
+		ez.swaptheimage(smallImage, largeImage); 
+     
+    });
+	
+	// Using custom configuration
+	$("#img_01").elevateZoom({
+			gallery: "gal1",
+			imageCrossfade: true,
+		scrollZoom: true, 
+		cursor:"pointer"			
+	});
+  	
+ 
+    $("#img_01").bind("click", function(e) {  
+		var ez =   $('#img_01').data('elevateZoom');	
+		$.fancybox(ez.getGalleryList());
+        return false;
+    });
+
+	$("#img_02").elevateZoom({
+		gallery				: "gal2",
+		tint: true,
+		cursor:"crosshair",	
+		windowHeight:600		
+	});
+    
+	$("#img_03").elevateZoom({
+     	zoomType				: "lens",
+    	lensShape : "round",
+        lensSize    : 200
+	});
+  	  	
+    $("#img_02").bind("click", function(e) {  
+		var ez = $('#img_02').data('elevateZoom');	
+		$.fancybox(ez.getGalleryList());
+            return false;
+		});    
+    });
+  </script>
+
